@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<canvas id="canvas" style="border:1px solid #aaa;display:block;margin:50px auto;">
+    当前浏览器不支持Canvas，请更换浏览器后再试
+</canvas>
+
+<script>
+   var Line = function() {
+       var startX=100;
+       this.getStartX = function(){
+        return startX;
+       }
+       this.setStartX = function(val){
+            startX = val;
+       }
+
+        startY = 400;
+        this.getStartY = function(){
+            return startY;
+        }
+        this.setStartY = function(y){
+            startY = y;
+        }
+
+        endX = 500;
+        this.getEndX = function(){
+            return endX;
+        }
+        this.setEndX = function(val){
+            endX = val;
+        }
+        endY = 400;
+        this.getEndY = function(){
+            return endY;
+        }
+        this.setEndY = function(val){
+            console.log(val);
+            endY = val;
+        }
+
+        width =5;
+        this.getWidth = function(){
+            return width;
+        }
+
+        color = "#058";
+        this.getColor = function(){
+            return color;
+        }
+    }
+    
+    window.onload = function(){
+
+        var canvas = document.getElementById("canvas");
+
+        canvas.width = 600;
+        canvas.height = 500;
+
+        var context = canvas.getContext("2d");
+        var line = new Line();
+        drawLine(context, line);
+
+        var length = line.getEndX()-line.getStartX();
+        
+        var one = length/split;
+        var count =1;
+        var start = line.getStartX();
+        while (one > 10) {
+            var lineNew = new Line();
+            lineNew.setStartY(line.getStartY()-10*count);
+            lineNew.setEndY(line.getEndY()-10*count);
+            for(var i=0; i<Math.pow(split,count); i++){
+                if((i+1)%2==0){
+                    continue;
+                }
+                lineNew.setStartX(start+one*i);
+                lineNew.setEndX(lineNew.getStartX()+one);
+                drawLine(context, lineNew);
+                
+            }
+            count++;
+            one = length/Math.pow(split,count);
+        }
+       
+    }
+
+    var split = 3;
+
+    function drawLine(context, line){
+        context.moveTo( line.getStartX(), line.getStartY());
+        context.lineTo( line.getEndX(), line.getEndY());
+        context.lineWidth = line.getWidth();
+        context.strokeStyle = line.getColor();
+        context.stroke();
+    }
+</script>
+</body>
+</html>
