@@ -31,7 +31,98 @@
       </footer>
 
     </section>
+<canvas id="canvas" style="border:1px solid #aaa;display:block;margin:50px auto;">
+    当前浏览器不支持Canvas，请更换浏览器后再试
+</canvas>
 
+<script>
+   var LineBean = function(ax, ay, bx, by) {
+       var startX=ax;
+       this.getStartX = function(){
+        return startX;
+       }
+       this.setStartX = function(val){
+            startX = val;
+       }
+        startY = ay;
+        this.getStartY = function(){
+            return startY;
+        }
+        this.setStartY = function(y){
+            // alert(y);
+            startY = y;
+        }
+        endX = bx;
+        this.getEndX = function(){
+            return endX;
+        }
+        this.setEndX = function(val){
+            endX = val;
+        }
+        endY = by;
+        this.getEndY = function(){
+            return endY;
+        }
+        this.setEndY = function(valY){
+            // console.log(val);
+            endY = valY;
+        }
+        width =5;
+        this.getWidth = function(){
+            return width;
+        }
+        color = "#058";
+        this.getColor = function(){
+            return color;
+        }
+    }
+    
+    var split = 3;
+    var deep =1;
+    function drawLine(context, argLine){
+        //先把line绘制出来
+        context.moveTo( argLine.getStartX(), argLine.getStartY());
+        context.lineTo( argLine.getEndX(), argLine.getEndY());
+        context.lineWidth = argLine.getWidth();
+        context.strokeStyle = argLine.getColor();
+        context.stroke();
+       
+        //计算新的绘制参数
+        var length = argLine.getEndX()-argLine.getStartX();
+        //单位长度
+        var one = length/split;
+        //间距
+        var spacing = argLine.getWidth()+10;
+        var yPoint= argLine.getStartY()-spacing;
+        
+        
+        if(one>1){
+            for(var i=0; i<split; i++){
+                if((i+1)%2==0){
+                    continue;
+                }
+                //新的LineBean 对象
+                var tmpLine = new LineBean(argLine.getStartX(), argLine.getStartY(), argLine.getEndX(), argLine.getEndY());
+                tmpLine.setStartY(yPoint);
+                // alert(argLine.getStartY());
+                tmpLine.setEndY(yPoint);
+                tmpLine.setStartX(argLine.getStartX()+one*i);
+                tmpLine.setEndX(tmpLine.getStartX()+one);
+                drawLine(context, tmpLine);
+                
+            }
+        }
+        
+    }
+    window.onload = function(){
+        var canvas = document.getElementById("canvas");
+        canvas.width = 800;
+        canvas.height = 600;
+        var context = canvas.getContext("2d");
+        var line = new LineBean(100, 500, 700, 500);
+        drawLine(context, line);
+    }
+</script>
   
   </body>
 </html>
